@@ -41,30 +41,29 @@ if __name__ == '__main__':
         'render_date': rev_info.current_date(),
     }
 
-    with Xvfb():
-        renderer = Renderer('splitflap.scad', laser_parts_directory, extra_variables)
-        renderer.clean()
-        svg_output = renderer.render_svgs()
+    renderer = Renderer('splitflap.scad', laser_parts_directory, extra_variables)
+    renderer.clean()
+    svg_output = renderer.render_svgs()
 
-        # Export to png
-        raster_svg = os.path.join(laser_parts_directory, 'raster.svg')
-        raster_png = os.path.join(laser_parts_directory, 'raster.png')
-        processor = SvgProcessor(svg_output)
-        processor.apply_raster_render_style()
-        processor.write(raster_svg)
+    # Export to png
+    raster_svg = os.path.join(laser_parts_directory, 'raster.svg')
+    raster_png = os.path.join(laser_parts_directory, 'raster.png')
+    processor = SvgProcessor(svg_output)
+    processor.apply_raster_render_style()
+    processor.write(raster_svg)
 
-        logging.info('Resize SVG canvas')
-        subprocess.check_call([
-            'inkscape',
-            '--verb=FitCanvasToDrawing',
-            '--verb=FileSave',
-            '--verb=FileClose',
-            raster_svg,
-        ])
-        logging.info('Export PNG')
-        subprocess.check_call([
-            'inkscape',
-            '--export-width=320',
-            '--export-png', raster_png,
-            raster_svg,
-        ])
+    logging.info('Resize SVG canvas')
+    subprocess.check_call([
+        'inkscape',
+        '--verb=FitCanvasToDrawing',
+        '--verb=FileSave',
+        '--verb=FileClose',
+        raster_svg,
+    ])
+    logging.info('Export PNG')
+    subprocess.check_call([
+        'inkscape',
+        '--export-width=320',
+        '--export-png', raster_png,
+        raster_svg,
+    ])
