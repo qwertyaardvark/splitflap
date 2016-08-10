@@ -25,8 +25,10 @@ logger = logging.getLogger(__name__)
 
 class OpenSCADException(Exception):
     def __init__(self, message, returncode, stdout=None, stderr=None):
+        truncated_stdout = '\n'.join(stdout.splitlines()[-20:]) if stdout is not None else None
+        truncated_stderr = '\n'.join(stderr.splitlines()[-20:]) if stderr is not None else None
         super(OpenSCADException, self).__init__('%s\n\nRETURN CODE:%d\n\nSTDOUT:\n%s\n\nSTDERR:\n%s' % (
-            message, returncode, '\n'.join(stdout.splitlines()[-20:]), '\n'.join(stderr.splitlines()[-20:])))
+            message, returncode, truncated_stdout, truncated_stderr))
         self.returncode = returncode
         self.stdout = stdout
         self.stderr = stderr
