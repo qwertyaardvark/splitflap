@@ -22,12 +22,15 @@ import subprocess
 
 logger = logging.getLogger(__name__)
 
+
 class OpenSCADException(Exception):
     def __init__(self, message, returncode, stdout=None, stderr=None):
-        super(OpenSCADException, self).__init__(message)
+        super(OpenSCADException, self).__init__('%s\n\nRETURN CODE:%d\n\nSTDOUT:\n%s\n\nSTDERR:\n%s' % (
+            message, returncode, '\n'.join(stdout.splitlines()[-20:]), '\n'.join(stderr.splitlines()[-20:])))
         self.returncode = returncode
         self.stdout = stdout
         self.stderr = stderr
+
 
 def run(
         input_file,
@@ -91,6 +94,7 @@ def run(
         raise OpenSCADException('openscad returned non-zero!', returncode, stdout=stdout, stderr=stderr)
     return stdout, stderr
 
+
 def extract_values(stderr):
     """
     Extracts values from ECHO statements as a dictionary. Values are strings.
@@ -102,4 +106,3 @@ def extract_values(stderr):
         if m:
             result[m.group(1)] = m.group(2)
     return result
-
