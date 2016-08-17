@@ -8,7 +8,8 @@ install:
 #- ./electronics/scripts/dependencies.sh
 script:
 - xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" xdpyinfo
-- (cd 3d && xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" python -u generate_2d.py)
+- cat /var/log/Xorg.0.log
+#- (cd 3d && xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" python -u generate_2d.py)
 #- (cd 3d && xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" python -u generate_gif.py)
 #- python -u 3d/generate_stl.py
 #- (cd electronics && python -u generate_svg.py)
