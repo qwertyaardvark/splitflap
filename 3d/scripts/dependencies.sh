@@ -5,3 +5,5 @@ set -ev
 sudo add-apt-repository --yes ppa:openscad/releases
 sudo apt-get update -qq
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openscad inkscape imagemagick xvfb libglib2.0-dev libgl1-mesa-dri libgles2-mesa-dev freeglut3-dev libfreetype6-dev xorg-dev libssl-dev libbz2-dev xserver-xorg-input-void xserver-xorg-video-dummy
+sudo update-alternatives --display gl_conf
+sudo dpkg-reconfigure xserver-xorg
